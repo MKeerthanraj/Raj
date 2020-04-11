@@ -1,0 +1,123 @@
+package com.connect3game;
+
+import androidx.appcompat.app.AppCompatActivity;
+
+import android.graphics.Color;
+import android.os.Bundle;
+import android.view.View;
+import android.widget.Button;
+import android.widget.ImageView;
+import android.widget.TextView;
+
+public class MainActivity extends AppCompatActivity {
+    int player=0,tag,i,c=0,w=0,oScore=0,xScore=0;
+    int[] state={2,2,2,2,2,2,2,2,2};
+    int[][] winpos={{0,1,2},{3,4,5},{6,7,8},{0,3,6},{1,4,7},{2,5,8},{0,4,8},{2,4,6}};
+
+    public void click(View view) {
+        ImageView imageView = (ImageView) view;
+        tag = Integer.parseInt(imageView.getTag().toString());
+        if (state[tag] == 2) {
+            c++;
+            if (c <= 9&&w==0) {
+
+                    if (player == 0) {
+                        imageView.setImageResource(R.drawable.o);
+                        state[tag] = player;
+                        player = 1;
+                    } else if (player == 1) {
+                        imageView.setImageResource(R.drawable.cross1);
+                        state[tag] = player;
+                        player = 0;
+                    } else {
+                    }
+
+
+                for (i = 0; i < 8&&w==0; i++) {
+                    if (state[winpos[i][0]] == state[winpos[i][1]] && state[winpos[i][1]] == state[winpos[i][2]] && state[winpos[i][0]] != 2 && state[winpos[i][1]] != 2 && state[winpos[i][2]] != 2) {
+                        if (player == 0) {
+                            xScore++;
+                            String xScoreStr=String.valueOf(xScore);
+                            TextView txt=(TextView) findViewById(R.id.ScoreViewX);
+                            txt.setText(xScoreStr);
+                            TextView text = (TextView) findViewById(R.id.textView);
+                            text.setText("Cross is the Winner!");
+                            text.animate().alpha(1);
+                            Button button = (Button) findViewById(R.id.tryAgain);
+                            button.animate().alpha(1);
+                            player = 2;
+                            w=1;
+                        } else if(player==1) {
+                            oScore++;
+                            String oScoreStr=String.valueOf(oScore);
+                            TextView txt1=(TextView) findViewById(R.id.ScoreViewO);
+                            txt1.setText(oScoreStr);
+                            TextView text = (TextView) findViewById(R.id.textView);
+                            text.setText("Circle is the Winner!");
+                            text.animate().alpha(1);
+                            Button button = (Button) findViewById(R.id.tryAgain);
+                            button.animate().alpha(1);
+                            player = 2;
+                            w=1;
+                        }
+                    }
+                }
+            }
+
+            if (c == 9&&w==0) {
+                TextView text = (TextView) findViewById(R.id.textView);
+                text.setText("Its a Tie");
+                text.animate().alpha(1);
+                Button button = (Button) findViewById(R.id.tryAgain);
+                button.setBackgroundColor(Color.parseColor("#24A60F"));
+                button.animate().alpha(1);
+            }
+
+
+        }
+    }
+
+
+        public  void tryagain(View veiw) {
+            if (findViewById(R.id.tryAgain).getAlpha() == 1) {
+                for (i = 0; i <= 8; i++) {
+                    state[i] = 2;
+                }
+                ImageView imageView1 = (ImageView) findViewById(R.id.imageView1);
+                ImageView imageView2 = (ImageView) findViewById(R.id.imageView2);
+                ImageView imageView3 = (ImageView) findViewById(R.id.imageView3);
+                ImageView imageView4 = (ImageView) findViewById(R.id.imageView4);
+                ImageView imageView5 = (ImageView) findViewById(R.id.imageView5);
+                ImageView imageView6 = (ImageView) findViewById(R.id.imageView6);
+                ImageView imageView7 = (ImageView) findViewById(R.id.imageView7);
+                ImageView imageView8 = (ImageView) findViewById(R.id.imageView8);
+                ImageView imageView9 = (ImageView) findViewById(R.id.imageView9);
+
+                imageView1.setImageResource(0);
+                imageView2.setImageResource(0);
+                imageView3.setImageResource(0);
+                imageView4.setImageResource(0);
+                imageView5.setImageResource(0);
+                imageView6.setImageResource(0);
+                imageView7.setImageResource(0);
+                imageView8.setImageResource(0);
+                imageView9.setImageResource(0);
+
+                TextView text = (TextView) findViewById(R.id.textView);
+                text.animate().alpha(0).setDuration(500);
+                Button button = (Button) findViewById(R.id.tryAgain);
+                button.animate().alpha(0).setDuration(500);
+
+                player = 0;
+                c = 0;
+                w = 0;
+
+            }
+        }
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_main);
+    }
+}
